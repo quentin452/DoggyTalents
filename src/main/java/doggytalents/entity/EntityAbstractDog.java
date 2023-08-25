@@ -67,7 +67,7 @@ public abstract class EntityAbstractDog extends EntityTameable {
 
     private static void forceChunkLoading(ForgeChunkManager.Ticket ticket, EntityAbstractDog dog) {
 
-        if(dog == null) {
+        if (dog == null) {
             return;
         }
 
@@ -75,11 +75,10 @@ public abstract class EntityAbstractDog extends EntityTameable {
 
         ChunkCoordIntPair coords;
 
-        if(dog != null) {
+        if (dog != null) {
             coords = new ChunkCoordIntPair(
                 MathHelper.floor_double(dog.posX) >> 4,
-                MathHelper.floor_double(dog.posZ) >> 4
-            );
+                MathHelper.floor_double(dog.posZ) >> 4);
         } else {
             return;
         }
@@ -91,11 +90,8 @@ public abstract class EntityAbstractDog extends EntityTameable {
         for (int x = -1; x <= 1; x++) {
             for (int z = -1; z <= 1; z++) {
 
-                if(dog != null) {
-                    neighborCoords = new ChunkCoordIntPair(
-                        coords.chunkXPos + x,
-                        coords.chunkZPos + z
-                    );
+                if (dog != null) {
+                    neighborCoords = new ChunkCoordIntPair(coords.chunkXPos + x, coords.chunkZPos + z);
                 }
 
             }

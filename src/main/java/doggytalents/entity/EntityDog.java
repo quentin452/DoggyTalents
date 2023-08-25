@@ -65,6 +65,7 @@ import doggytalents.proxy.CommonProxy;
  */
 public class EntityDog extends EntityAbstractDog {
 
+    private int minHealth = 1;
     private float timeWolfIsHappy;
     private float prevTimeWolfIsHappy;
     private boolean isWolfHappy;
@@ -212,6 +213,22 @@ public class EntityDog extends EntityAbstractDog {
 
     public EntityAISit getSitAI() {
         return this.aiSit;
+    }
+
+    @Override
+    public void setHealth(float health) {
+        if (Constants.DOGS_IMMORTAL) {
+            health = Math.max(health, minHealth);
+        }
+        super.setHealth(health);
+    }
+
+    public boolean isImmortal() {
+        return this.isTamed() && Constants.DOGS_IMMORTAL || this.levels.isDireDog();
+    }
+
+    public boolean isIncapacicated() {
+        return Constants.DOGS_IMMORTAL && this.getHealth() <= 1;
     }
 
     @Override
@@ -424,10 +441,6 @@ public class EntityDog extends EntityAbstractDog {
             this.jumpMovementFactor = 0.02F;
             super.moveEntityWithHeading(strafe, forward);
         }
-    }
-
-    public boolean isImmortal() {
-        return this.isTamed() && Constants.DOGS_IMMORTAL || this.levels.isDireDog();
     }
 
     @Override
@@ -1047,10 +1060,6 @@ public class EntityDog extends EntityAbstractDog {
         if (TalentHelper.canAttackClass(this, cls)) return true;
 
         return super.canAttackClass(cls);
-    }
-
-    public boolean isIncapacicated() {
-        return Constants.DOGS_IMMORTAL && this.getHealth() <= 1;
     }
 
     @Override
