@@ -3,7 +3,6 @@ package doggytalents.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
@@ -16,19 +15,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import doggytalents.api.DoggyTalentsAPI;
-import doggytalents.lib.Reference;
 
 public abstract class EntityAbstractDog extends EntityTameable {
 
     private static final Map<EntityAbstractDog, ForgeChunkManager.Ticket> entityTickets = new HashMap<>();
-    // #todo fix https://github.com/quentin452/DoggyTalents/issues/2  private boolean isInitialized = false;
+    // #todo fix https://github.com/quentin452/DoggyTalents/issues/2 private boolean isInitialized = false;
     private float headRotationCourse;
     private float headRotationCourseOld;
     private boolean isWet;
@@ -40,87 +37,64 @@ public abstract class EntityAbstractDog extends EntityTameable {
         super(world);
         this.setSize(0.6F, 0.85F);
     }
-// #todo fix https://github.com/quentin452/DoggyTalents/issues/2
+    // #todo fix https://github.com/quentin452/DoggyTalents/issues/2
     /*
-    public static void requestTicket(Entity entity) {
-
-        if (!(entity instanceof EntityAbstractDog)) return;
-
-        EntityAbstractDog dog = (EntityAbstractDog) entity;
-
-        if (!dog.isInitialized) return;
-
-        ForgeChunkManager.Ticket ticket = getOrCreateTicket(dog);
-        forceChunkLoading(ticket, dog);
-
-    }
-
-    private static ForgeChunkManager.Ticket getOrCreateTicket(EntityAbstractDog dog) {
-        ForgeChunkManager.Ticket ticket = entityTickets.get(dog);
-
-        if (ticket == null) {
-            ticket = ForgeChunkManager.requestTicket(Reference.MOD_ID, dog.worldObj, ForgeChunkManager.Type.ENTITY);
-            entityTickets.put(dog, ticket);
-        }
-
-        return ticket;
-    }
-
-    private static void forceChunkLoading(ForgeChunkManager.Ticket ticket, EntityAbstractDog dog) {
-
-        if (dog == null) {
-            return;
-        }
-
-        ticket.bindEntity(dog);
-
-        ChunkCoordIntPair coords;
-
-        if (dog != null) {
-            coords = new ChunkCoordIntPair(
-                MathHelper.floor_double(dog.posX) >> 4,
-                MathHelper.floor_double(dog.posZ) >> 4);
-        } else {
-            return;
-        }
-
-        ForgeChunkManager.forceChunk(ticket, coords);
-
-        ChunkCoordIntPair neighborCoords = null;
-
-        for (int x = -1; x <= 1; x++) {
-            for (int z = -1; z <= 1; z++) {
-
-                if (dog != null) {
-                    neighborCoords = new ChunkCoordIntPair(coords.chunkXPos + x, coords.chunkZPos + z);
-                }
-
-            }
-
-            ForgeChunkManager.forceChunk(ticket, neighborCoords);
-
-        }
-    }
-
-    protected static boolean worldReady(World world) {
-        return world != null;
-    }
-
-    private static ForgeChunkManager.Ticket getTicket(EntityAbstractDog entity) {
-        return entityTickets.get(entity);
-    }
-
+     * public static void requestTicket(Entity entity) {
+     * if (!(entity instanceof EntityAbstractDog)) return;
+     * EntityAbstractDog dog = (EntityAbstractDog) entity;
+     * if (!dog.isInitialized) return;
+     * ForgeChunkManager.Ticket ticket = getOrCreateTicket(dog);
+     * forceChunkLoading(ticket, dog);
+     * }
+     * private static ForgeChunkManager.Ticket getOrCreateTicket(EntityAbstractDog dog) {
+     * ForgeChunkManager.Ticket ticket = entityTickets.get(dog);
+     * if (ticket == null) {
+     * ticket = ForgeChunkManager.requestTicket(Reference.MOD_ID, dog.worldObj, ForgeChunkManager.Type.ENTITY);
+     * entityTickets.put(dog, ticket);
+     * }
+     * return ticket;
+     * }
+     * private static void forceChunkLoading(ForgeChunkManager.Ticket ticket, EntityAbstractDog dog) {
+     * if (dog == null) {
+     * return;
+     * }
+     * ticket.bindEntity(dog);
+     * ChunkCoordIntPair coords;
+     * if (dog != null) {
+     * coords = new ChunkCoordIntPair(
+     * MathHelper.floor_double(dog.posX) >> 4,
+     * MathHelper.floor_double(dog.posZ) >> 4);
+     * } else {
+     * return;
+     * }
+     * ForgeChunkManager.forceChunk(ticket, coords);
+     * ChunkCoordIntPair neighborCoords = null;
+     * for (int x = -1; x <= 1; x++) {
+     * for (int z = -1; z <= 1; z++) {
+     * if (dog != null) {
+     * neighborCoords = new ChunkCoordIntPair(coords.chunkXPos + x, coords.chunkZPos + z);
+     * }
+     * }
+     * ForgeChunkManager.forceChunk(ticket, neighborCoords);
+     * }
+     * }
+     * protected static boolean worldReady(World world) {
+     * return world != null;
+     * }
+     * private static ForgeChunkManager.Ticket getTicket(EntityAbstractDog entity) {
+     * return entityTickets.get(entity);
+     * }
      */
 
     @Override
     protected void updateAITick() {
         super.updateAITick();
-// #todo fix https://github.com/quentin452/DoggyTalents/issues/2
-     /*   if (worldReady(worldObj)) {
-            requestTicket(this);
-        }
-
-      */
+        // #todo fix https://github.com/quentin452/DoggyTalents/issues/2
+        /*
+         * if (worldReady(worldObj)) {
+         * requestTicket(this);
+         * }
+         */
     }
 
     @Override
@@ -226,30 +200,27 @@ public abstract class EntityAbstractDog extends EntityTameable {
             }
         }
     }
-// #todo fix https://github.com/quentin452/DoggyTalents/issues/2
-  /*  private void updateChunkLoading() {
-        if (this.worldObj == null || !this.isEntityAlive()) {
-            releaseChunkTicket();
-            return;
-        }
-
-        requestTicket(this);
-    }
-
-    @Override
-    protected void onDeathUpdate() {
-        releaseChunkTicket();
-        entityTickets.remove(this);
-    }
-
-    private void releaseChunkTicket() {
-        ForgeChunkManager.Ticket ticket = entityTickets.remove(this);
-        if (ticket != null) {
-            ForgeChunkManager.releaseTicket(ticket);
-        }
-    }
-
-   */
+    // #todo fix https://github.com/quentin452/DoggyTalents/issues/2
+    /*
+     * private void updateChunkLoading() {
+     * if (this.worldObj == null || !this.isEntityAlive()) {
+     * releaseChunkTicket();
+     * return;
+     * }
+     * requestTicket(this);
+     * }
+     * @Override
+     * protected void onDeathUpdate() {
+     * releaseChunkTicket();
+     * entityTickets.remove(this);
+     * }
+     * private void releaseChunkTicket() {
+     * ForgeChunkManager.Ticket ticket = entityTickets.remove(this);
+     * if (ticket != null) {
+     * ForgeChunkManager.releaseTicket(ticket);
+     * }
+     * }
+     */
 
     @SideOnly(Side.CLIENT)
     public boolean isDogWet() {
