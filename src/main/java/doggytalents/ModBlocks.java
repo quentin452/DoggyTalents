@@ -21,7 +21,7 @@ public class ModBlocks {
     public static Block FOOD_BOWL;
 
     public static void init() {
-        DoggyTalents.LOGGER.info("Registering Blocks");
+        DoggyLogger.LOGGER.info("Registering Blocks");
         DOG_BED = new BlockDogBed().setBlockName("doggytalents.dogbed");
         DOG_BATH = new BlockDogBath().setBlockName("doggytalents.dogbath");
         FOOD_BOWL = new BlockFoodBowl().setBlockName("doggytalents.foodbowl");

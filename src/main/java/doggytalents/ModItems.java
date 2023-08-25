@@ -47,7 +47,7 @@ public class ModItems {
     public static Item BIG_BONE;
 
     public static void init() {
-        DoggyTalents.LOGGER.info("Registering Items");
+        DoggyLogger.LOGGER.info("Registering Items");
         THROW_BONE = new ItemThrowBone().setUnlocalizedName("doggytalents.throwbone");
         COMMAND_EMBLEM = new ItemCommandEmblem().setUnlocalizedName("doggytalents.commandemblem");
         TRAINING_TREAT = new ItemTreat("training_treat", 20).setUnlocalizedName("doggytalents.trainingtreat");

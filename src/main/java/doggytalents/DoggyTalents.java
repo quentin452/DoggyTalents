@@ -8,9 +8,6 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.RecipeSorter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -66,8 +63,6 @@ public class DoggyTalents {
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY)
     public static CommonProxy PROXY;
-
-    public static final Logger LOGGER = LogManager.getLogger(Reference.MOD_NAME);
 
     public static CreativeTabs CREATIVE_TAB = new CreativeTabDoggyTalents();
     public static CreativeTabs CREATIVE_TAB_BED = new CreativeTabDogBed();

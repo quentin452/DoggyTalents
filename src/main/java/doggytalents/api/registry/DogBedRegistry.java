@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -12,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 
-import doggytalents.DoggyTalents;
+import doggytalents.DoggyLogger;
 import doggytalents.ModBlocks;
 import doggytalents.api.inferface.DefaultDogBedIcon;
 import doggytalents.api.inferface.IDogBedIcon;
@@ -49,7 +50,7 @@ public class DogBedRegistry {
 
     public void registerMaterial(String blockId, int meta) {
         if (!Block.blockRegistry.containsKey(blockId))
-            DoggyTalents.LOGGER.warn("The block id {} does not exist for a material", blockId);
+            DoggyLogger.LOGGER.log(Level.WARNING, "The block id {} does not exist for a material", blockId);
         else {
             Block block = Block.getBlockFromName(blockId);
             String lookupname = String.format("dogbed.%s.%s.%d", this.key, blockId, meta);
@@ -60,7 +61,7 @@ public class DogBedRegistry {
 
     public void registerMaterial(Block block, int meta) {
         if (block == null || block == Blocks.air) {
-            DoggyTalents.LOGGER.warn("Null block cannot be registered for a material");
+            DoggyLogger.LOGGER.log(Level.WARNING, "Null block cannot be registered for a material");
             return;
         }
 
@@ -71,16 +72,16 @@ public class DogBedRegistry {
     }
 
     public void registerMaterial(String key, String lookupname, IDogBedIcon dogBedIcon, ItemStack craftingItem) {
-        if (this.isValidId(key))
-            DoggyTalents.LOGGER.warn("Tried to register a dog bed material with the id {} more that once", key);
+        if (this.isValidId(key)) DoggyLogger.LOGGER
+            .log(Level.WARNING, "Tried to register a dog bed material with the id {} more that once", key);
         else {
             this.keys.add(key);
             this.lookupnames.put(key, lookupname);
             this.textures.put(key, dogBedIcon);
             this.craftingItems.put(key, CustomIngredient.fromStacks(craftingItem));
 
-            // todo make crash on startup DoggyTalents.LOGGER.info("Register dog bed {} under the key {}", this.key,
-            // key);
+            DoggyLogger.LOGGER
+                .log(Level.INFO, "Register dog bed {0} under the key {1}", new Object[] { this.key, key });
         }
     }
 
