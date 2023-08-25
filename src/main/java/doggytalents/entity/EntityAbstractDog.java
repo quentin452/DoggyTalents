@@ -28,7 +28,7 @@ import doggytalents.lib.Reference;
 public abstract class EntityAbstractDog extends EntityTameable {
 
     private static final Map<EntityAbstractDog, ForgeChunkManager.Ticket> entityTickets = new HashMap<>();
-    private boolean isInitialized = false;
+    // #todo fix https://github.com/quentin452/DoggyTalents/issues/2  private boolean isInitialized = false;
     private float headRotationCourse;
     private float headRotationCourseOld;
     private boolean isWet;
@@ -40,7 +40,8 @@ public abstract class EntityAbstractDog extends EntityTameable {
         super(world);
         this.setSize(0.6F, 0.85F);
     }
-
+// #todo fix https://github.com/quentin452/DoggyTalents/issues/2
+    /*
     public static void requestTicket(Entity entity) {
 
         if (!(entity instanceof EntityAbstractDog)) return;
@@ -109,20 +110,24 @@ public abstract class EntityAbstractDog extends EntityTameable {
         return entityTickets.get(entity);
     }
 
+     */
+
     @Override
     protected void updateAITick() {
         super.updateAITick();
-
-        if (worldReady(worldObj)) {
+// #todo fix https://github.com/quentin452/DoggyTalents/issues/2
+     /*   if (worldReady(worldObj)) {
             requestTicket(this);
         }
+
+      */
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
         this.dataWatcher.addObject(25, 0); // Boolean data
-        isInitialized = true;
+        // #todo fix https://github.com/quentin452/DoggyTalents/issues/2 isInitialized = true;
     }
 
     @Override
@@ -173,7 +178,7 @@ public abstract class EntityAbstractDog extends EntityTameable {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        updateChunkLoading();
+        // #todo fix https://github.com/quentin452/DoggyTalents/issues/2 updateChunkLoading();
         this.headRotationCourseOld = this.headRotationCourse;
 
         if (this.isBegging()) this.headRotationCourse += (1.0F - this.headRotationCourse) * 0.4F;
@@ -221,8 +226,8 @@ public abstract class EntityAbstractDog extends EntityTameable {
             }
         }
     }
-
-    private void updateChunkLoading() {
+// #todo fix https://github.com/quentin452/DoggyTalents/issues/2
+  /*  private void updateChunkLoading() {
         if (this.worldObj == null || !this.isEntityAlive()) {
             releaseChunkTicket();
             return;
@@ -243,6 +248,8 @@ public abstract class EntityAbstractDog extends EntityTameable {
             ForgeChunkManager.releaseTicket(ticket);
         }
     }
+
+   */
 
     @SideOnly(Side.CLIENT)
     public boolean isDogWet() {
