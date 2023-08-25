@@ -79,7 +79,8 @@ public class DogBedRegistry {
             this.textures.put(key, dogBedIcon);
             this.craftingItems.put(key, CustomIngredient.fromStacks(craftingItem));
 
-            // todo make crash on startup DoggyTalents.LOGGER.info("Register dog bed {} under the key {}", this.key, key);
+            // todo make crash on startup DoggyTalents.LOGGER.info("Register dog bed {} under the key {}", this.key,
+            // key);
         }
     }
 

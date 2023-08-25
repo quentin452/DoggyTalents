@@ -33,7 +33,8 @@ public class TalentRegistry {
             idtalent.put(talent.getKey(), talent);
             talentid.put(talent, talent.getKey());
             MinecraftForge.EVENT_BUS.register(talent);
-           // todo make crash on startup DoggyTalents.LOGGER.info("Register the talent with the id {}", talent.getKey());
+            // todo make crash on startup DoggyTalents.LOGGER.info("Register the talent with the id {}",
+            // talent.getKey());
         }
     }
 
