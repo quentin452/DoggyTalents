@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -134,27 +135,23 @@ public class BlockFoodBowl extends BlockContainer {
 
     @Override
     @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        top = iconRegister.registerIcon("doggytalents:food_top");
+        bottom = iconRegister.registerIcon("doggytalents:food_bottom");
+        side = iconRegister.registerIcon("doggytalents:food_side");
+    }
+
+    @Override
     public IIcon getIcon(int side, int meta) {
 
-        String iconName = "doggytalents:food_side";
-
         if (side == 1) {
-            iconName = "doggytalents:food_top";
+            return top;
         } else if (side == 0) {
-            iconName = "doggytalents:food_bottom";
-        }
-
-        IIcon icon;
-
-        if (iconName.equals("doggytalents:food_top")) {
-            icon = top;
-        } else if (iconName.equals("doggytalents:food_bottom")) {
-            icon = bottom;
+            return bottom;
         } else {
-            icon = this.side;
+            return this.side;
         }
 
-        return icon;
     }
 
     @Override
