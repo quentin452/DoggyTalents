@@ -15,7 +15,6 @@ import doggytalents.entity.ModeUtil.EnumMode;
  **/
 public class EntityAIModeAttackTarget extends EntityAITarget {
 
-    private static final int REVENGE_TIMER_INDEX = 20;
     private EntityDog dog;
     private EntityLivingBase entityToAttack;
     private int timestamp;
@@ -38,22 +37,20 @@ public class EntityAIModeAttackTarget extends EntityAITarget {
             else {
                 if (this.dog.mode.isMode(EnumMode.BERSERKER)) {
                     double distance = 16D;
-                    List list = dog.worldObj.getEntitiesWithinAABBExcludingEntity(
+                    List<Entity> list = dog.worldObj.getEntitiesWithinAABBExcludingEntity(
                         dog,
                         dog.boundingBox.expand(distance, distance, distance));
 
-                    for (int count = 0; count < list.size(); count++) {
-                        Entity entity1 = (Entity) list.get(count);
-                        if (!(entity1 instanceof EntityMob)) {
-                            continue;
-                        }
+                    for (Entity entity1 : list) {
+                        if (!(entity1 instanceof EntityMob)) continue;
+
                         this.entityToAttack = (EntityLivingBase) entity1;
                         if (this.isSuitableTarget(this.entityToAttack, false)
                             && this.dog.func_142018_a(this.entityToAttack, entitylivingbase)) return true;
                     }
                 } else if (this.dog.mode.isMode(EnumMode.AGGRESIVE)) {
                     this.entityToAttack = entitylivingbase.getAITarget();
-                    return REVENGE_TIMER_INDEX != this.timestamp && this.isSuitableTarget(this.entityToAttack, false)
+                    return this.entityToAttack != null && this.isSuitableTarget(this.entityToAttack, false)
                         && this.dog.func_142018_a(this.entityToAttack, entitylivingbase);
                 }
                 return false;
@@ -68,17 +65,7 @@ public class EntityAIModeAttackTarget extends EntityAITarget {
 
     @Override
     public void startExecuting() {
-
         this.taskOwner.setAttackTarget(this.entityToAttack);
-
-        EntityLivingBase owner = this.dog.getOwner();
-
-        if (owner != null) {
-            this.timestamp = owner.getDataWatcher()
-                .getWatchableObjectInt(REVENGE_TIMER_INDEX);
-        }
-
         super.startExecuting();
-
     }
 }
