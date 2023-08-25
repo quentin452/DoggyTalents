@@ -27,7 +27,7 @@ public class ItemList {
             DoggyTalents.LOGGER.warn("The item {} meta {} is already registered in this item list", item, meta);
         else {
             this.itemlist.add(array);
-            DoggyTalents.LOGGER.info("The item {} meta {} was register to an item list", item, meta);
+            // todo make crash on startup DoggyTalents.LOGGER.info("The item {} meta {} was register to an item list", item, meta);
         }
     }
 
