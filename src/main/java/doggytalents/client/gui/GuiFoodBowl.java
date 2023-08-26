@@ -2,6 +2,7 @@ package doggytalents.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
@@ -14,7 +15,7 @@ import doggytalents.tileentity.TileEntityFoodBowl;
  **/
 public class GuiFoodBowl extends GuiContainer {
 
-    private TileEntityFoodBowl foodBowl;
+    private final TileEntityFoodBowl foodBowl;
 
     public GuiFoodBowl(InventoryPlayer playerInventory, TileEntityFoodBowl par2TileEntityFoodBowl) {
         super(new ContainerFoodBowl(playerInventory, par2TileEntityFoodBowl));
@@ -24,8 +25,9 @@ public class GuiFoodBowl extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int var1, int var2) {
-        String s = this.foodBowl.inventory.getInventoryName();
-        this.fontRendererObj.drawString(s, 10, 8, 4210752);
+        String inventoryName = this.foodBowl.inventory.getInventoryName();
+        String localizedInventoryName = StatCollector.translateToLocal(inventoryName);
+        this.fontRendererObj.drawString(localizedInventoryName, 10, 8, 4210752);
     }
 
     @Override
