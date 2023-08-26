@@ -213,7 +213,7 @@ public abstract class EntityAbstractDog extends EntityTameable {
             }
         }
     }
-    
+
     private void updateChunkLoading() {
 
         if (this.worldObj == null || !this.isEntityAlive()) {
