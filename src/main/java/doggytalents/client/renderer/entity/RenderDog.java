@@ -181,12 +181,12 @@ public class RenderDog extends RenderLiving {
                 if (dog.getDogHunger() > 0) {
                     label += String.format(" (%d)", dog.getDogHunger());
                 }
-            }
 
-            if (entity.isPlayerSleeping()) {
-                this.renderLivingLabel(entity, label, x, y - 0.5D, z, 64, 0.75F);
-            } else {
-                this.renderLivingLabel(entity, label, x, y, z, 64, 0.75F);
+                if (entity.isPlayerSleeping()) {
+                    this.renderLivingLabel(entity, label, x, y - 0.5D, z, 64, 0.75F);
+                } else {
+                    this.renderLivingLabel(entity, label, x, y, z, 64, 0.75F);
+                }
             }
         }
 
