@@ -75,16 +75,6 @@ public class DoggyTalents {
     public void preInit(FMLPreInitializationEvent event) {
         ConfigurationHandler.init(new Configuration(event.getSuggestedConfigurationFile()));
         PROXY.preInit(event);
-        ForgeChunkManager.setForcedChunkLoadingCallback(INSTANCE, (tickets, world) -> {
-            for (ForgeChunkManager.Ticket ticket : tickets) {
-                if (ticket.getEntity() instanceof EntityDog) {
-                    // code de gestion du chargement pour l'entité chien
-                    EntityDog dog = (EntityDog) ticket.getEntity();
-                    ChunkCoordIntPair chunkPos = EntityAbstractDog.getChunkCoordsForEntity(dog);
-                    ForgeChunkManager.forceChunk(ticket, chunkPos);
-                }
-            }
-        });
     }
 
     @EventHandler
