@@ -23,88 +23,27 @@ import doggytalents.api.DoggyTalentsAPI;
 import doggytalents.lib.Reference;
 
 public abstract class EntityAbstractDog extends EntityTameable {
-
-    public static final ForgeChunkManager.Type TICKET_TYPE = ForgeChunkManager.Type.ENTITY;
-    private static ForgeChunkManager.Ticket globalTicket;
-    private boolean isInitialized = false;
     private float headRotationCourse;
     private float headRotationCourseOld;
     private boolean isWet;
     public boolean isShaking;
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
-    private int updateCounter;
-    private ForgeChunkManager.Ticket chunkTicket;
 
     public EntityAbstractDog(World world) {
         super(world);
         this.setSize(0.6F, 0.85F);
     }
 
-    public void requestTicket(Entity entity) {
-        if (!(entity instanceof EntityAbstractDog)) return;
-
-        EntityAbstractDog dog = (EntityAbstractDog) entity;
-        if (!dog.isInitialized) return;
-        ForgeChunkManager.Ticket ticket = getOrCreateTicket();
-        forceChunkLoading(ticket, dog);
-    }
-
-    private void forceChunkLoading(ForgeChunkManager.Ticket ticket, EntityAbstractDog dog) {
-        if (dog == null) {
-            return;
-        }
-        ticket.bindEntity(dog);
-        System.out.println("Binding ticket " + ticket + " to dog " + dog);
-        ChunkCoordIntPair coords;
-        coords = new ChunkCoordIntPair(MathHelper.floor_double(dog.posX) >> 4, MathHelper.floor_double(dog.posZ) >> 4);
-        System.out.println("Calculating chunk coordinates: " + coords);
-        ForgeChunkManager.forceChunk(ticket, coords);
-        System.out.println("Forcing chunk " + coords + " for dog");
-        ChunkCoordIntPair neighborCoords;
-        for (int x = -1; x <= 1; x++) {
-            for (int z = -1; z <= 1; z++) {
-                neighborCoords = new ChunkCoordIntPair(coords.chunkXPos + x, coords.chunkZPos + z);
-                if (dog.worldObj.getChunkProvider()
-                    .chunkExists(neighborCoords.chunkXPos, neighborCoords.chunkZPos)) {
-                    ForgeChunkManager.forceChunk(ticket, neighborCoords);
-                }
-            }
-        }
-    }
-
-    private ForgeChunkManager.Ticket getOrCreateTicket() {
-
-        if (globalTicket == null) {
-
-            globalTicket = ForgeChunkManager.requestTicket(Reference.MOD_ID, worldObj, TICKET_TYPE);
-            System.out.println("Global ticket created: " + globalTicket);
-        }
-
-        return globalTicket;
-
-    }
-
-    protected boolean worldReady(World world) {
-        return world != null;
-    }
-
     @Override
     protected void updateAITick() {
         super.updateAITick();
-
-        if (worldReady(worldObj)) {
-            requestTicket(this);
-        }
-
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
         this.dataWatcher.addObject(25, 0); // Boolean data
-        isInitialized = true;
-        chunkTicket = null; // Initialize the ticket as null
     }
 
     @Override
@@ -155,17 +94,6 @@ public abstract class EntityAbstractDog extends EntityTameable {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (!worldObj.isRemote) {
-            if (isEntityAlive()) {
-                updateChunkLoading();
-                updateCounter++;
-                if (updateCounter % 20 == 0) {
-                    System.out.println("Calling updateChunkLoading for " + this);
-                }
-            } else {
-                releaseChunkTicket();
-            }
-        }
         this.headRotationCourseOld = this.headRotationCourse;
 
         if (this.isBegging()) this.headRotationCourse += (1.0F - this.headRotationCourse) * 0.4F;
@@ -212,56 +140,6 @@ public abstract class EntityAbstractDog extends EntityTameable {
                 }
             }
         }
-    }
-
-    private void updateChunkLoading() {
-
-        if (this.worldObj == null || !this.isEntityAlive()) {
-            releaseChunkTicket();
-            return;
-        }
-
-        if (chunkTicket != null) {
-            int x = MathHelper.floor_double(this.posX) >> 4;
-            int z = MathHelper.floor_double(this.posZ) >> 4;
-
-            System.out.println("Before getting chunk coordinates - X: " + x + ", Z: " + z);
-
-            ChunkCoordIntPair chunkPos = getChunkCoords();
-
-            System.out.println("After getting chunk coordinates - X: " + chunkPos.chunkXPos + ", Z: " + chunkPos.chunkZPos);
-
-            chunkTicket.bindEntity(this);
-
-            System.out.println("Binding chunk ticket to entity");
-
-            // Forcer uniquement ce chunk
-            ForgeChunkManager.forceChunk(chunkTicket, chunkPos);
-        }
-    }
-
-    private ChunkCoordIntPair getChunkCoords() {
-        ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(
-            MathHelper.floor_double(this.posX) >> 4,
-            MathHelper.floor_double(this.posZ) >> 4);
-        System.out.println("Chunk coordinates: " + chunkPos);
-
-        return chunkPos;
-    }
-
-    @Override
-    protected void onDeathUpdate() {
-        releaseChunkTicket();
-    }
-
-    private void releaseChunkTicket() {
-
-        if (globalTicket != null) {
-            ForgeChunkManager.releaseTicket(globalTicket);
-            System.out.println("Releasing global ticket");
-            globalTicket = null;
-        }
-
     }
 
     @SideOnly(Side.CLIENT)
