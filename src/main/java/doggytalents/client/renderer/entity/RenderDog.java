@@ -165,20 +165,33 @@ public class RenderDog extends RenderLiving {
         if (distanceFromPlayer < 100.0D) {
             y += (double) ((float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * 0.016666668F * 0.7F);
 
-            String tip = dog.mode.getMode()
-                .getTip();
+            String label = "";
 
-            if (dog.isIncapacicated()) tip = "doggui.modetip.incapacitated";
+            if (!dog.getCustomNameTag()
+                .isEmpty()) {
+                String tip = dog.mode.getMode()
+                    .getTip();
 
-            String label = String.format("%s(%d)", StatCollector.translateToLocal(tip), dog.getDogHunger());
+                if (dog.isIncapacicated()) {
+                    tip = "doggui.modetip.incapacitated";
+                }
 
-            if (entity.isPlayerSleeping()) this.renderLivingLabel(entity, label, x, y - 0.5D, z, 64, 0.75F);
+                label = StatCollector.translateToLocal(tip);
 
-            else this.renderLivingLabel(entity, label, x, y, z, 64, 0.75F);
+                if (dog.getDogHunger() > 0) {
+                    label += String.format(" (%d)", dog.getDogHunger());
+                }
+            }
+
+            if (entity.isPlayerSleeping()) {
+                this.renderLivingLabel(entity, label, x, y - 0.5D, z, 64, 0.75F);
+            } else {
+                this.renderLivingLabel(entity, label, x, y, z, 64, 0.75F);
+            }
         }
 
-        if (distanceFromPlayer < 5 * 5) {
-
+        if (!dog.getCustomNameTag()
+            .isEmpty() && distanceFromPlayer < 5 * 5) {
             if (this.renderManager.livingPlayer.isSneaking()) {
                 String ownerName = "A Wild Dog";
                 if (dog.getOwner() != null) {
