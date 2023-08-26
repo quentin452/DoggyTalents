@@ -213,13 +213,7 @@ public abstract class EntityAbstractDog extends EntityTameable {
             }
         }
     }
-
-    public static ChunkCoordIntPair getChunkCoordsForEntity(EntityDog dog) {
-        int chunkX = MathHelper.floor_double(dog.posX) >> 4;
-        int chunkZ = MathHelper.floor_double(dog.posZ) >> 4;
-        return new ChunkCoordIntPair(chunkX, chunkZ);
-    }
-
+    
     private void updateChunkLoading() {
 
         if (this.worldObj == null || !this.isEntityAlive()) {
