@@ -1,10 +1,14 @@
 package doggytalents;
 
+import doggytalents.entity.EntityAbstractDog;
+import doggytalents.entity.EntityDog;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.RecipeSorter;
 
@@ -71,6 +75,16 @@ public class DoggyTalents {
     public void preInit(FMLPreInitializationEvent event) {
         ConfigurationHandler.init(new Configuration(event.getSuggestedConfigurationFile()));
         PROXY.preInit(event);
+        ForgeChunkManager.setForcedChunkLoadingCallback(INSTANCE, (tickets, world) -> {
+            for (ForgeChunkManager.Ticket ticket : tickets) {
+                if (ticket.getEntity() instanceof EntityDog) {
+                    // code de gestion du chargement pour l'entité chien
+                    EntityDog dog = (EntityDog) ticket.getEntity();
+                    ChunkCoordIntPair chunkPos = EntityAbstractDog.getChunkCoordsForEntity(dog);
+                    ForgeChunkManager.forceChunk(ticket, chunkPos);
+                }
+            }
+        });
     }
 
     @EventHandler

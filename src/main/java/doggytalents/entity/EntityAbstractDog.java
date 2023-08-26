@@ -1,8 +1,5 @@
 package doggytalents.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -27,7 +24,8 @@ import doggytalents.lib.Reference;
 
 public abstract class EntityAbstractDog extends EntityTameable {
 
-    private static final Map<EntityAbstractDog, ForgeChunkManager.Ticket> entityTickets = new HashMap<>();
+    public static final ForgeChunkManager.Type TICKET_TYPE = ForgeChunkManager.Type.ENTITY;
+    private static ForgeChunkManager.Ticket globalTicket;
     private boolean isInitialized = false;
     private float headRotationCourse;
     private float headRotationCourseOld;
@@ -35,60 +33,60 @@ public abstract class EntityAbstractDog extends EntityTameable {
     public boolean isShaking;
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
+    private int updateCounter;
+    private ForgeChunkManager.Ticket chunkTicket;
 
     public EntityAbstractDog(World world) {
         super(world);
         this.setSize(0.6F, 0.85F);
     }
 
-    public static void requestTicket(Entity entity) {
+    public void requestTicket(Entity entity) {
         if (!(entity instanceof EntityAbstractDog)) return;
+
         EntityAbstractDog dog = (EntityAbstractDog) entity;
         if (!dog.isInitialized) return;
-        ForgeChunkManager.Ticket ticket = getOrCreateTicket(dog);
+        ForgeChunkManager.Ticket ticket = getOrCreateTicket();
         forceChunkLoading(ticket, dog);
     }
 
-    private static ForgeChunkManager.Ticket getOrCreateTicket(EntityAbstractDog dog) {
-        ForgeChunkManager.Ticket ticket = entityTickets.get(dog);
-        if (ticket == null) {
-            ticket = ForgeChunkManager.requestTicket(Reference.MOD_ID, dog.worldObj, ForgeChunkManager.Type.ENTITY);
-            entityTickets.put(dog, ticket);
-        }
-        return ticket;
-    }
-
-    private static void forceChunkLoading(ForgeChunkManager.Ticket ticket, EntityAbstractDog dog) {
+    private void forceChunkLoading(ForgeChunkManager.Ticket ticket, EntityAbstractDog dog) {
         if (dog == null) {
             return;
         }
         ticket.bindEntity(dog);
+        System.out.println("Binding ticket " + ticket + " to dog " + dog);
         ChunkCoordIntPair coords;
-        if (dog != null) {
-            coords = new ChunkCoordIntPair(
-                MathHelper.floor_double(dog.posX) >> 4,
-                MathHelper.floor_double(dog.posZ) >> 4);
-        } else {
-            return;
-        }
+        coords = new ChunkCoordIntPair(MathHelper.floor_double(dog.posX) >> 4, MathHelper.floor_double(dog.posZ) >> 4);
+        System.out.println("Calculating chunk coordinates: " + coords);
         ForgeChunkManager.forceChunk(ticket, coords);
-        ChunkCoordIntPair neighborCoords = null;
+        System.out.println("Forcing chunk " + coords + " for dog");
+        ChunkCoordIntPair neighborCoords;
         for (int x = -1; x <= 1; x++) {
             for (int z = -1; z <= 1; z++) {
-                if (dog != null) {
-                    neighborCoords = new ChunkCoordIntPair(coords.chunkXPos + x, coords.chunkZPos + z);
+                neighborCoords = new ChunkCoordIntPair(coords.chunkXPos + x, coords.chunkZPos + z);
+                if (dog.worldObj.getChunkProvider()
+                    .chunkExists(neighborCoords.chunkXPos, neighborCoords.chunkZPos)) {
+                    ForgeChunkManager.forceChunk(ticket, neighborCoords);
                 }
             }
-            ForgeChunkManager.forceChunk(ticket, neighborCoords);
         }
     }
 
-    protected static boolean worldReady(World world) {
-        return world != null;
+    private ForgeChunkManager.Ticket getOrCreateTicket() {
+
+        if (globalTicket == null) {
+
+            globalTicket = ForgeChunkManager.requestTicket(Reference.MOD_ID, worldObj, TICKET_TYPE);
+            System.out.println("Global ticket created: " + globalTicket);
+        }
+
+        return globalTicket;
+
     }
 
-    private static ForgeChunkManager.Ticket getTicket(EntityAbstractDog entity) {
-        return entityTickets.get(entity);
+    protected boolean worldReady(World world) {
+        return world != null;
     }
 
     @Override
@@ -106,6 +104,7 @@ public abstract class EntityAbstractDog extends EntityTameable {
         super.entityInit();
         this.dataWatcher.addObject(25, 0); // Boolean data
         isInitialized = true;
+        chunkTicket = null; // Initialize the ticket as null
     }
 
     @Override
@@ -156,7 +155,17 @@ public abstract class EntityAbstractDog extends EntityTameable {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        updateChunkLoading();
+        if (!worldObj.isRemote) {
+            if (isEntityAlive()) {
+                updateChunkLoading();
+                updateCounter++;
+                if (updateCounter % 20 == 0) {
+                    System.out.println("Calling updateChunkLoading for " + this);
+                }
+            } else {
+                releaseChunkTicket();
+            }
+        }
         this.headRotationCourseOld = this.headRotationCourse;
 
         if (this.isBegging()) this.headRotationCourse += (1.0F - this.headRotationCourse) * 0.4F;
@@ -195,7 +204,7 @@ public abstract class EntityAbstractDog extends EntityTameable {
                     this.worldObj.spawnParticle(
                         "splash",
                         this.posX + (double) f1,
-                        (double) (f + 0.8F),
+                        f + 0.8F,
                         this.posZ + (double) f2,
                         this.motionX,
                         this.motionY,
@@ -205,25 +214,60 @@ public abstract class EntityAbstractDog extends EntityTameable {
         }
     }
 
+    public static ChunkCoordIntPair getChunkCoordsForEntity(EntityDog dog) {
+        int chunkX = MathHelper.floor_double(dog.posX) >> 4;
+        int chunkZ = MathHelper.floor_double(dog.posZ) >> 4;
+        return new ChunkCoordIntPair(chunkX, chunkZ);
+    }
+
     private void updateChunkLoading() {
+
         if (this.worldObj == null || !this.isEntityAlive()) {
             releaseChunkTicket();
             return;
         }
-        requestTicket(this);
+
+        if (chunkTicket != null) {
+            int x = MathHelper.floor_double(this.posX) >> 4;
+            int z = MathHelper.floor_double(this.posZ) >> 4;
+
+            System.out.println("Before getting chunk coordinates - X: " + x + ", Z: " + z);
+
+            ChunkCoordIntPair chunkPos = getChunkCoords();
+
+            System.out.println("After getting chunk coordinates - X: " + chunkPos.chunkXPos + ", Z: " + chunkPos.chunkZPos);
+
+            chunkTicket.bindEntity(this);
+
+            System.out.println("Binding chunk ticket to entity");
+
+            // Forcer uniquement ce chunk
+            ForgeChunkManager.forceChunk(chunkTicket, chunkPos);
+        }
+    }
+
+    private ChunkCoordIntPair getChunkCoords() {
+        ChunkCoordIntPair chunkPos = new ChunkCoordIntPair(
+            MathHelper.floor_double(this.posX) >> 4,
+            MathHelper.floor_double(this.posZ) >> 4);
+        System.out.println("Chunk coordinates: " + chunkPos);
+
+        return chunkPos;
     }
 
     @Override
     protected void onDeathUpdate() {
         releaseChunkTicket();
-        entityTickets.remove(this);
     }
 
     private void releaseChunkTicket() {
-        ForgeChunkManager.Ticket ticket = entityTickets.remove(this);
-        if (ticket != null) {
-            ForgeChunkManager.releaseTicket(ticket);
+
+        if (globalTicket != null) {
+            ForgeChunkManager.releaseTicket(globalTicket);
+            System.out.println("Releasing global ticket");
+            globalTicket = null;
         }
+
     }
 
     @SideOnly(Side.CLIENT)
@@ -322,8 +366,7 @@ public abstract class EntityAbstractDog extends EntityTameable {
         else if (!(otherAnimal instanceof EntityAbstractDog)) return false;
         else {
             EntityAbstractDog entitydog = (EntityAbstractDog) otherAnimal;
-            return !entitydog.isTamed() ? false
-                : (entitydog.isSitting() ? false : this.isInLove() && entitydog.isInLove());
+            return entitydog.isTamed() && (!entitydog.isSitting() && this.isInLove() && entitydog.isInLove());
         }
     }
 
