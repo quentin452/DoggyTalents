@@ -300,17 +300,37 @@ public class ModelDog extends ModelBase {
             this.wingsModel.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
     }
 
+    private final float prevHeadPitch = 0.0F;
+    private final float prevNetHeadYaw = 0.0F;
+    private float headPitchSmooth = 0.0F;
+    private float netHeadYawSmooth = 0.0F;
+
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
         float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        this.wolfHeadMain.rotateAngleX = headPitch * 0.017453292F;
-        this.wolfHeadMain.rotateAngleY = netHeadYaw * 0.017453292F;
+
+        // Smooth head pitch and net head yaw values
+        // A value between 0 and 1, higher values increase smoothing
+        float SMOOTHING_FACTOR = 0.2F;
+        headPitchSmooth = headPitchSmooth * (1.0F - SMOOTHING_FACTOR) + headPitch * SMOOTHING_FACTOR;
+        netHeadYawSmooth = netHeadYawSmooth * (1.0F - SMOOTHING_FACTOR) + netHeadYaw * SMOOTHING_FACTOR;
+
+        this.wolfHeadMain.rotateAngleX = headPitchSmooth * 0.017453292F;
+        this.wolfHeadMain.rotateAngleY = netHeadYawSmooth * 0.017453292F;
         this.wolfHeadMainBone.rotateAngleX = this.wolfHeadMain.rotateAngleX;
         this.wolfHeadMainBone.rotateAngleY = this.wolfHeadMain.rotateAngleY;
         this.wolfTail.rotateAngleX = ageInTicks;
 
-        if (this.wings) this.wingsModel
-            .setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+        if (this.wings) {
+            this.wingsModel.setRotationAngles(
+                limbSwing,
+                limbSwingAmount,
+                ageInTicks,
+                netHeadYaw,
+                headPitch,
+                scaleFactor,
+                entityIn);
+        }
     }
 }
