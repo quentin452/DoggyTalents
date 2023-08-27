@@ -11,6 +11,8 @@ Doggy Talents [![Curseforge](http://cf.way2muchnoise.eu/full_doggy-talents_downl
 ### Fork New fix/Features
 
 - Fix https://github.com/quentin452/privates-minecraft-modpack/issues/447
+- Fix https://github.com/quentin452/DoggyTalents/issues/21
+- Fix https://github.com/quentin452/DoggyTalents/issues/18
 - Fix https://github.com/quentin452/DoggyTalents/issues/11
 - Partialy Fix https://github.com/quentin452/DoggyTalents/issues/1
 

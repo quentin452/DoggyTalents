@@ -221,9 +221,13 @@ public class ModelDog extends ModelBase {
             this.wolfMane.render(scale);
         }
 
-        this.mc.renderEngine.bindTexture(ResourceLib.MOB_LAYER_WINGS);
-        if (this.wings && Constants.DOGGY_WINGS && dog.talents.getLevel("pillowpaw") == 5)
+        if (this.wings && Constants.DOGGY_WINGS && dog.talents.getLevel("pillowpaw") == 5) {
+            GL11.glDisable(GL11.GL_BLEND); // Disable alpha blending
+            this.mc.renderEngine.bindTexture(ResourceLib.MOB_LAYER_WINGS);
             this.wingsModel.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+            GL11.glEnable(GL11.GL_BLEND); // Enable alpha blending again
+        }
+
     }
 
     @Override
@@ -238,7 +242,6 @@ public class ModelDog extends ModelBase {
             this.wolfMane.rotateAngleX = ((float) Math.PI * 2F / 5F);
             this.wolfMane.rotateAngleY = 0.0F;
             this.wolfBody.setRotationPoint(0.0F, 18.0F, 0.0F);
-            this.wolfBody.rotateAngleX = ((float) Math.PI / 4F);
             this.wolfBody.rotateAngleX = ((float) Math.PI / 4F);
             this.wolfBodyChest.setRotationPoint(0.0F, 18.0F, 0.0F);
             this.wolfBodyChest.rotateAngleX = ((float) Math.PI / 4F);

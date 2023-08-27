@@ -160,25 +160,26 @@ public class RenderDog extends RenderLiving {
 
         EntityDog dog = (EntityDog) entity;
 
+        if (dog.riddenByEntity != null) {
+            // Si monté, ne pas afficher les labels
+            return;
+        }
+
         double distanceFromPlayer = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
 
         if (distanceFromPlayer < 100.0D) {
-            y += (double) ((float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * 0.016666668F * 0.7F);
 
             String label = "";
 
             if (!dog.getCustomNameTag()
                 .isEmpty()) {
+
                 String tip = dog.mode.getMode()
                     .getTip();
 
-                if (dog.isIncapacicated()) {
-                    tip = "doggui.modetip.incapacitated";
-                }
-
                 label = StatCollector.translateToLocal(tip);
 
-                if (dog.getDogHunger() > 0) {
+                if (dog.getDogHunger() > 0 && dog.riddenByEntity == null) {
                     label += String.format(" (%d)", dog.getDogHunger());
                 }
 
