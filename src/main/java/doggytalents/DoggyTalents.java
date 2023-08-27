@@ -2,6 +2,7 @@ package doggytalents;
 
 import java.util.List;
 
+import doggytalents.creativetab.CreativeTabDogBed;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -67,7 +68,7 @@ public class DoggyTalents {
     public static CommonProxy PROXY;
 
     public static CreativeTabs CREATIVE_TAB = new CreativeTabDoggyTalents();
-
+    public static CreativeTabs CREATIVE_TAB_BED = new CreativeTabDogBed();
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         ConfigurationHandler.init(new Configuration(event.getSuggestedConfigurationFile()));
