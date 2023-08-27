@@ -168,6 +168,7 @@ public class RenderDog extends RenderLiving {
         double distanceFromPlayer = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
 
         if (distanceFromPlayer < 100.0D) {
+            y += (double) ((float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * 0.016666668F * 0.7F);
 
             String label = "";
 

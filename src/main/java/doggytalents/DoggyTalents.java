@@ -2,7 +2,6 @@ package doggytalents;
 
 import java.util.List;
 
-import doggytalents.creativetab.CreativeTabDogBed;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -25,6 +24,7 @@ import doggytalents.api.DoggyTalentsAPI;
 import doggytalents.api.registry.DogBedRegistry;
 import doggytalents.api.registry.TalentRegistry;
 import doggytalents.configuration.ConfigurationHandler;
+import doggytalents.creativetab.CreativeTabDogBed;
 import doggytalents.creativetab.CreativeTabDoggyTalents;
 import doggytalents.inventory.RecipeDogBed;
 import doggytalents.inventory.RecipeDogCape;
@@ -69,6 +69,7 @@ public class DoggyTalents {
 
     public static CreativeTabs CREATIVE_TAB = new CreativeTabDoggyTalents();
     public static CreativeTabs CREATIVE_TAB_BED = new CreativeTabDogBed();
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         ConfigurationHandler.init(new Configuration(event.getSuggestedConfigurationFile()));
