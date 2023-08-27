@@ -1,5 +1,7 @@
 package doggytalents;
 
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -47,8 +49,6 @@ import doggytalents.talent.RescueDog;
 import doggytalents.talent.ShepherdDog;
 import doggytalents.talent.SwimmerDog;
 import doggytalents.talent.WolfMount;
-
-import java.util.List;
 
 /**
  * @author ProPercivalalb
@@ -136,105 +136,207 @@ public class DoggyTalents {
 
         GameRegistry.addRecipe(
             new ItemStack(ModItems.THROW_BONE, 1, 0),
-            " X ", "XYX", " X ", 'X', Items.bone, 'Y', Items.slime_ball);
-        GameRegistry.addShapelessRecipe(
-            new ItemStack(ModItems.THROW_BONE, 1, 0),
-            new ItemStack(ModItems.THROW_BONE, 1, 1));
+            " X ",
+            "XYX",
+            " X ",
+            'X',
+            Items.bone,
+            'Y',
+            Items.slime_ball);
+        GameRegistry
+            .addShapelessRecipe(new ItemStack(ModItems.THROW_BONE, 1, 0), new ItemStack(ModItems.THROW_BONE, 1, 1));
         GameRegistry.addRecipe(
             new ItemStack(ModItems.THROW_BONE, 1, 2),
-            " X ", "XYX", " X ", 'X', Items.stick, 'Y', Items.slime_ball);
-        GameRegistry.addShapelessRecipe(
-            new ItemStack(ModItems.THROW_BONE, 1, 2),
-            new ItemStack(ModItems.THROW_BONE, 1, 3));
+            " X ",
+            "XYX",
+            " X ",
+            'X',
+            Items.stick,
+            'Y',
+            Items.slime_ball);
+        GameRegistry
+            .addShapelessRecipe(new ItemStack(ModItems.THROW_BONE, 1, 2), new ItemStack(ModItems.THROW_BONE, 1, 3));
         GameRegistry.addShapelessRecipe(
             new ItemStack(ModItems.SUPER_TREAT, 5),
-            new ItemStack(ModItems.TRAINING_TREAT, 1), new ItemStack(ModItems.TRAINING_TREAT, 1),
-            new ItemStack(ModItems.TRAINING_TREAT, 1), new ItemStack(ModItems.TRAINING_TREAT, 1),
-            new ItemStack(ModItems.TRAINING_TREAT, 1), new ItemStack(Items.golden_apple, 1));
+            new ItemStack(ModItems.TRAINING_TREAT, 1),
+            new ItemStack(ModItems.TRAINING_TREAT, 1),
+            new ItemStack(ModItems.TRAINING_TREAT, 1),
+            new ItemStack(ModItems.TRAINING_TREAT, 1),
+            new ItemStack(ModItems.TRAINING_TREAT, 1),
+            new ItemStack(Items.golden_apple, 1));
         GameRegistry.addShapelessRecipe(
             new ItemStack(ModItems.DIRE_TREAT, 1),
-            new ItemStack(ModItems.MASTER_TREAT, 1), new ItemStack(ModItems.MASTER_TREAT, 1),
-            new ItemStack(ModItems.MASTER_TREAT, 1), new ItemStack(ModItems.MASTER_TREAT, 1),
-            new ItemStack(ModItems.MASTER_TREAT, 1), new ItemStack(Blocks.end_stone, 1));
+            new ItemStack(ModItems.MASTER_TREAT, 1),
+            new ItemStack(ModItems.MASTER_TREAT, 1),
+            new ItemStack(ModItems.MASTER_TREAT, 1),
+            new ItemStack(ModItems.MASTER_TREAT, 1),
+            new ItemStack(ModItems.MASTER_TREAT, 1),
+            new ItemStack(Blocks.end_stone, 1));
         GameRegistry.addShapelessRecipe(
             new ItemStack(ModItems.BREEDING_BONE, 2),
-            new ItemStack(ModItems.MASTER_TREAT, 1), new ItemStack(Items.cooked_beef, 1),
-            new ItemStack(Items.cooked_porkchop, 1), new ItemStack(Items.cooked_chicken, 1),
+            new ItemStack(ModItems.MASTER_TREAT, 1),
+            new ItemStack(Items.cooked_beef, 1),
+            new ItemStack(Items.cooked_porkchop, 1),
+            new ItemStack(Items.cooked_chicken, 1),
             new ItemStack(Items.cooked_fished, 1));
         GameRegistry.addShapelessRecipe(
             new ItemStack(ModItems.MASTER_TREAT, 5),
-            new ItemStack(ModItems.SUPER_TREAT, 1), new ItemStack(ModItems.SUPER_TREAT, 1),
-            new ItemStack(ModItems.SUPER_TREAT, 1), new ItemStack(ModItems.SUPER_TREAT, 1),
-            new ItemStack(ModItems.SUPER_TREAT, 1), new ItemStack(Items.diamond, 1));
+            new ItemStack(ModItems.SUPER_TREAT, 1),
+            new ItemStack(ModItems.SUPER_TREAT, 1),
+            new ItemStack(ModItems.SUPER_TREAT, 1),
+            new ItemStack(ModItems.SUPER_TREAT, 1),
+            new ItemStack(ModItems.SUPER_TREAT, 1),
+            new ItemStack(Items.diamond, 1));
         GameRegistry.addRecipe(
             new ItemStack(ModItems.TRAINING_TREAT, 1),
-            "TUV", "XXX", "YYY", 'T', Items.string, 'U', Items.bone, 'V', Items.gunpowder, 'X',
-            Items.sugar, 'Y', Items.wheat);
+            "TUV",
+            "XXX",
+            "YYY",
+            'T',
+            Items.string,
+            'U',
+            Items.bone,
+            'V',
+            Items.gunpowder,
+            'X',
+            Items.sugar,
+            'Y',
+            Items.wheat);
         GameRegistry.addRecipe(
             new ItemStack(ModItems.COLLAR_SHEARS, 1),
-            " X ", "XYX", " X ", 'X', Items.bone, 'Y', Items.shears);
+            " X ",
+            "XYX",
+            " X ",
+            'X',
+            Items.bone,
+            'Y',
+            Items.shears);
         GameRegistry.addRecipe(
             new ItemStack(ModItems.COMMAND_EMBLEM, 1),
-            " X ", "XYX", " X ", 'X', Items.gold_ingot, 'Y', Items.bow);
+            " X ",
+            "XYX",
+            " X ",
+            'X',
+            Items.gold_ingot,
+            'Y',
+            Items.bow);
         GameRegistry.addRecipe(
             new ItemStack(ModBlocks.FOOD_BOWL, 1),
-            "XXX", "XYX", "XXX", 'X', Items.iron_ingot, 'Y', Items.bone);
+            "XXX",
+            "XYX",
+            "XXX",
+            'X',
+            Items.iron_ingot,
+            'Y',
+            Items.bone);
         GameRegistry.addRecipe(
             new ItemStack(ModBlocks.DOG_BATH, 1),
-            "XXX", "XYX", "XXX", 'X', Items.iron_ingot, 'Y', Items.water_bucket);
-        GameRegistry.addRecipe(
-            new ItemStack(ModItems.CHEW_STICK, 1),
-            "SW", "WS", 'W', Items.wheat, 'S', Items.sugar);
-        GameRegistry
-            .addRecipe(new ItemStack(ModItems.WOOL_COLLAR, 1), "SSS", "S S", "SSS", 'S', Items.string);
+            "XXX",
+            "XYX",
+            "XXX",
+            'X',
+            Items.iron_ingot,
+            'Y',
+            Items.water_bucket);
+        GameRegistry.addRecipe(new ItemStack(ModItems.CHEW_STICK, 1), "SW", "WS", 'W', Items.wheat, 'S', Items.sugar);
+        GameRegistry.addRecipe(new ItemStack(ModItems.WOOL_COLLAR, 1), "SSS", "S S", "SSS", 'S', Items.string);
         GameRegistry.addRecipe(
             new ItemStack(ModItems.TREAT_BAG, 1),
-            "LCL", "LLL", 'L', Items.leather, 'C', ModItems.CHEW_STICK);
+            "LCL",
+            "LLL",
+            'L',
+            Items.leather,
+            'C',
+            ModItems.CHEW_STICK);
 
         GameRegistry.addRecipe(
             new ItemStack(ModItems.CAPE, 1),
-            "S S", "LWL", "WLW", 'L', Items.leather, 'S', Items.string, 'W', Blocks.wool);
+            "S S",
+            "LWL",
+            "WLW",
+            'L',
+            Items.leather,
+            'S',
+            Items.string,
+            'W',
+            Blocks.wool);
         GameRegistry.addRecipe(
             new ItemStack(ModItems.CAPE_COLOURED, 1),
-            "S S", "LLL", "LLL", 'L', Items.leather, 'S', Items.string);
+            "S S",
+            "LLL",
+            "LLL",
+            'L',
+            Items.leather,
+            'S',
+            Items.string);
         GameRegistry.addRecipe(
             new ItemStack(ModItems.LEATHER_JACKET, 1),
-            "L L", "LWL", "LWL", 'L', Items.leather, 'W', new ItemStack(Blocks.wool));
+            "L L",
+            "LWL",
+            "LWL",
+            'L',
+            Items.leather,
+            'W',
+            new ItemStack(Blocks.wool));
         GameRegistry.addRecipe(
             new ItemStack(ModItems.FANCY_COLLAR, 1, 1),
-            "BWB", "WCW", "BSB", 'C', new ItemStack(ModItems.WOOL_COLLAR), 'B',
-            new ItemStack(Items.dye, 1, 0), 'W', new ItemStack(Items.dye, 1, 15), 'S',
+            "BWB",
+            "WCW",
+            "BSB",
+            'C',
+            new ItemStack(ModItems.WOOL_COLLAR),
+            'B',
+            new ItemStack(Items.dye, 1, 0),
+            'W',
+            new ItemStack(Items.dye, 1, 15),
+            'S',
             new ItemStack(Items.string));
         GameRegistry.addRecipe(
             new ItemStack(ModItems.FANCY_COLLAR, 1, 1),
-            "WBW", "BCB", "WSW", 'C', new ItemStack(ModItems.WOOL_COLLAR), 'B',
-            new ItemStack(Items.dye, 1, 0), 'W', new ItemStack(Items.dye, 1, 15), 'S',
+            "WBW",
+            "BCB",
+            "WSW",
+            'C',
+            new ItemStack(ModItems.WOOL_COLLAR),
+            'B',
+            new ItemStack(Items.dye, 1, 0),
+            'W',
+            new ItemStack(Items.dye, 1, 15),
+            'S',
             new ItemStack(Items.string));
         GameRegistry.addShapelessRecipe(
             new ItemStack(ModItems.FANCY_COLLAR, 1, 2),
-            new ItemStack(ModItems.WOOL_COLLAR), new ItemStack(Items.string),
-            new ItemStack(ModItems.WOOL_COLLAR, 1, 4), new ItemStack(ModItems.WOOL_COLLAR, 1, 10),
-            new ItemStack(ModItems.WOOL_COLLAR, 1, 11), new ItemStack(ModItems.WOOL_COLLAR, 1, 14),
-            new ItemStack(ModItems.WOOL_COLLAR, 1, 1), new ItemStack(ModItems.WOOL_COLLAR, 1, 5));
+            new ItemStack(ModItems.WOOL_COLLAR),
+            new ItemStack(Items.string),
+            new ItemStack(ModItems.WOOL_COLLAR, 1, 4),
+            new ItemStack(ModItems.WOOL_COLLAR, 1, 10),
+            new ItemStack(ModItems.WOOL_COLLAR, 1, 11),
+            new ItemStack(ModItems.WOOL_COLLAR, 1, 14),
+            new ItemStack(ModItems.WOOL_COLLAR, 1, 1),
+            new ItemStack(ModItems.WOOL_COLLAR, 1, 5));
         GameRegistry.addRecipe(
             new ItemStack(ModItems.SUNGLASSES, 1),
-            "S S", "GSG", 'S', Items.stick, 'G', new ItemStack(Blocks.glass_pane));
-        GameRegistry.addRecipe(
-            new ItemStack(ModItems.TINY_BONE, 1),
-            "BI", "IB", 'B', Items.bone, 'I', Items.iron_ingot);
-        GameRegistry.addRecipe(
-            new ItemStack(ModItems.BIG_BONE, 1),
-            "BI", "IB", "BI", 'B', Items.bone, 'I', Items.iron_ingot);
+            "S S",
+            "GSG",
+            'S',
+            Items.stick,
+            'G',
+            new ItemStack(Blocks.glass_pane));
+        GameRegistry
+            .addRecipe(new ItemStack(ModItems.TINY_BONE, 1), "BI", "IB", 'B', Items.bone, 'I', Items.iron_ingot);
+        GameRegistry
+            .addRecipe(new ItemStack(ModItems.BIG_BONE, 1), "BI", "IB", "BI", 'B', Items.bone, 'I', Items.iron_ingot);
 
-        GameRegistry.addRecipe(
-            new ItemStack(ModItems.RADIO_COLLAR, 1),
-            "XX", "YX", 'X', Items.iron_ingot, 'Y', Items.redstone);
+        GameRegistry
+            .addRecipe(new ItemStack(ModItems.RADIO_COLLAR, 1), "XX", "YX", 'X', Items.iron_ingot, 'Y', Items.redstone);
         GameRegistry.addShapelessRecipe(
             new ItemStack(ModItems.RADAR, 1),
-            new ItemStack(Items.map, 1), new ItemStack(Items.redstone, 1),
+            new ItemStack(Items.map, 1),
+            new ItemStack(Items.redstone, 1),
             new ItemStack(ModItems.RADIO_COLLAR, 1));
 
-        List<IRecipe> recipeList = CraftingManager.getInstance().getRecipeList();
+        List<IRecipe> recipeList = CraftingManager.getInstance()
+            .getRecipeList();
 
         recipeList.add(new RecipeDogBed());
         recipeList.add(new RecipeDogCollar());
